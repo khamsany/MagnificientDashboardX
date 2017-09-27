@@ -26,14 +26,32 @@
     <script>
         var app = new Vue({
             el: '#root',
-
-            created() {
+            apolloProvider,
+            apollo: {
+                viewer: {
+                    manual: true,
+                    query: gql`query { viewer { repositories(first: 100) {nodes{id, name}} }}`,
+                    result(data) {
+                        console.log(data);
+                    }
+                },
+            },
+            data: {
+                viewer: ''
+            },
+            mounted() {
+                console.log(this.viewer);
                 console.log(axios.defaults.headers.common);
                 axios.get('api/viewer').then(
                     response => {
                         console.log(response.data);
                     }
+                ).catch(
+                    error => {
+                        console.log(error);
+                    }
                 );
+                //console.log(this.$apollo.queries.viewer);
             }
         });
     </script>

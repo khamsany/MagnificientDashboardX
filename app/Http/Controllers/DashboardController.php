@@ -8,6 +8,6 @@ class DashboardController extends Controller
 {
     public function main(Request $request)
     {
-
+        return view('dashboard');
     }
 }

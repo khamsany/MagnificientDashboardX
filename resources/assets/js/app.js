@@ -6,8 +6,10 @@
  */
 
 require('./bootstrap');
-
+window.VueApollo = require('vue-apollo');
 window.Vue = require('vue');
+window.gql = require('graphql-tag');
+Vue.use(VueApollo);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

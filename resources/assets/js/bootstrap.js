@@ -21,7 +21,7 @@ try {
 
 window.axios = require('axios');
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /**
  * Next we will register the CSRF Token as a common header with Axios so that
@@ -32,7 +32,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 let token = document.head.querySelector('meta[name="csrf-token"]');
 
 if (token) {
-    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 } else {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
@@ -42,6 +42,39 @@ if (token) {
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
+/**
+ * GraphQL require
+ */
+import ApolloClient, {createNetworkInterface} from 'apollo-client';
+import VueApollo from 'vue-apollo';
+
+const networkInterface = createNetworkInterface({
+    uri: 'https://api.github.com/graphql',
+    transportBatching: true,
+});
+let xtoken = document.head.querySelector('meta[name="x-token"]');
+if (xtoken) {
+    networkInterface.use([{
+        applyMiddleware(req, next) {
+            if (!req.options.headers) {
+                req.options.headers = {}  // Create the header object if needed.
+            }
+            req.options.headers.Authorization = 'bearer ' + xtoken.content;
+            next()
+        }
+    }]);
+} else {
+    console.error('Git Hub Access token not found');
+}
+
+const apolloClient = new ApolloClient({
+    networkInterface,
+    connectToDevTools: true
+});
+
+window.apolloProvider = new VueApollo({
+    defaultClient: apolloClient,
+});
 
 // import Echo from 'laravel-echo'
 

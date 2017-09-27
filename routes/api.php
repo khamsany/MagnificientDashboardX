@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group([
-    'middleware' => ['auth:api'],
+    'middleware' => 'auth:api',
     'namespace' => 'Api'
 ], function () {
 
