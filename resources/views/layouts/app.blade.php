@@ -7,7 +7,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <meta name="x-token" content="{{ env('x-token') }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
@@ -79,5 +79,6 @@
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
+@yield('scripts')
 </body>
 </html>
