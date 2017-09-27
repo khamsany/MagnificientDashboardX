@@ -23,3 +23,9 @@ Route::get('/test', function (\Illuminate\Http\Request $request) {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::group(['prefix' => 'dashboard'], function () {
+        Route::get('{repo}/{number}', 'DashboardController@main')->name('dashboard.main');
+    });
+});

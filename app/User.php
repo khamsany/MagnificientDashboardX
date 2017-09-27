@@ -30,12 +30,24 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
     public function repositories()
     {
         return $this->hasManyThrough(Repository::class, ClientUser::class, 'user_id', 'client_id', 'id', 'client_id');
     }
 
-    public function scopeInfo($query)
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function organizations()
+    {
+        return $this->belongsToMany(Client::class, 'client_users')
+            ->withPivot('role');
+    }
+
+    public function scopeWithIdentity($query)
     {
         $query->with('repositories');
     }
