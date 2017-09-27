@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Models\Client;
+use App\Models\ClientUser;
+use App\Models\Repository;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -26,4 +29,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function repositories()
+    {
+        return $this->hasManyThrough(Repository::class, ClientUser::class, 'user_id', 'client_id', 'id', 'client_id');
+    }
+
+    public function scopeInfo($query)
+    {
+        $query->with('repositories');
+    }
 }

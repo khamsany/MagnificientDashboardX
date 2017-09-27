@@ -14,3 +14,12 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/test', function (\Illuminate\Http\Request $request) {
+    $user = $request->user();
+    return response()->json(\App\User::where('id', $user->id)->with('repositories')->firstOrFail());
+})->middleware('auth');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
