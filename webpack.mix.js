@@ -12,5 +12,6 @@ let mix = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
-    .sass('resources/assets/sass/app.scss', 'public/css')
-    .js('resources/assets/js/dashboard.js', 'public/js');
+//.sass('resources/assets/sass/app.scss', 'public/css')
+    .js('resources/assets/js/dashboard.js', 'public/js')
+    .styles(['resources/assets/css/bulma.io.css'], 'public/css/bulma.io.css');

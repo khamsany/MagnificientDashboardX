@@ -11,73 +11,112 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="css/bulma.io.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body>
-<div id="app">
-    <nav class="navbar navbar-default navbar-static-top">
-        <div class="container">
-            <div class="navbar-header">
+<body class="layout-documentation page-elements">
+<div class="container">
 
-                <!-- Collapsed Hamburger -->
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                        data-target="#app-navbar-collapse">
-                    <span class="sr-only">Toggle Navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+    <nav class="navbar" role="navigation" aria-label="main navigation">
 
-                <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-            </div>
+        <div class="navbar-brand">
+            <a class="navbar-item" href="http://bulma.io">
+                <img src="http://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox"
+                     width="112" height="28">
+            </a>
 
-            <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                <!-- Left Side Of Navbar -->
-                <ul class="nav navbar-nav">
-                    &nbsp;
-                </ul>
-
-                <!-- Right Side Of Navbar -->
-                <ul class="nav navbar-nav navbar-right">
-                    <!-- Authentication Links -->
-                    @guest
-                        <li><a href="{{ route('login') }}">Login</a></li>
-                        <li><a href="{{ route('register') }}">Register</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <ul class="dropdown-menu" role="menu">
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                           onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                              style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                            @endguest
-                </ul>
-            </div>
+            <button class="button navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
+        <div class="navbar-menu">
+
+
+            @guest
+                <a class="nav-item" href="{{ route('login') }}">
+                    Login
+                </a>
+                <a class="nav-item" href="{{ route('register') }}">
+                    Register
+                </a>
+                @else
+                    <div class="navbar-item">
+                        <div class="navbar-dropdown">
+                            <div class="dropdown is-active">
+                                <div class="dropdown-trigger">
+                                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                                        <span>Dropdown button</span>
+                                        <span class="icon is-small"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
+                                    </button>
+                                </div>
+                                <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                    <div class="dropdown-content">
+                                        <a href="#" class="dropdown-item">
+                                            Dropdown item
+                                        </a>
+                                        <a class="dropdown-item">
+                                            Other dropdown item
+                                        </a>
+                                        <a href="#" class="dropdown-item is-active">
+                                            Active dropdown item
+                                        </a>
+                                        <a href="#" class="dropdown-item">
+                                            Other dropdown item
+                                        </a>
+                                        <hr class="dropdown-divider">
+                                        <a href="#" class="dropdown-item">
+                                            With a divider
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endguest
+
+        </div>
+
     </nav>
-
-    @yield('content')
 </div>
+<section class="hero is-primary">
+    <!-- Hero header: will stick at the top -->
+    <div class="hero-head">
+        <div class="container">
 
-<!-- Scripts -->
+        </div>
+    </div>
+
+    <!-- Hero content: will be in the middle -->
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title">
+                Title
+            </h1>
+            <h2 class="subtitle">
+                Subtitle
+            </h2>
+        </div>
+    </div>
+
+    <!-- Hero footer: will stick at the bottom -->
+    <div class="hero-foot">
+        <nav class="tabs">
+            <div class="container">
+                <ul>
+                    <li class="is-active"><a>Overview</a></li>
+                    <li><a>Modifiers</a></li>
+                    <li><a>Grid</a></li>
+                    <li><a>Elements</a></li>
+                    <li><a>Components</a></li>
+                    <li><a>Layout</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</section>
+
 <script src="{{ asset('js/app.js') }}"></script>
 @yield('scripts')
 </body>
