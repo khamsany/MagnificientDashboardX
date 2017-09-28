@@ -12,7 +12,7 @@ class ViewerApiController extends Controller
     public function info(Request $request)
     {
         $data = User::where('id', $request->user()->id)
-            ->withIdentity()
+            ->withIdentity($request->user()->id)
             ->firstOrFail();
 
         return response()->json($data);

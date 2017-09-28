@@ -67,13 +67,13 @@ if (xtoken) {
     console.error('Git Hub Access token not found');
 }
 
-const apolloClient = new ApolloClient({
+window.apollo = new ApolloClient({
     networkInterface,
     connectToDevTools: true
 });
 
 window.apolloProvider = new VueApollo({
-    defaultClient: apolloClient,
+    defaultClient: apollo,
 });
 
 // import Echo from 'laravel-echo'

@@ -14,9 +14,8 @@
     <link rel="stylesheet" href="css/bulma.io.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="layout-documentation page-elements">
-<div class="container">
-
+<body>
+<div class="container" id="root">
     <nav class="navbar" role="navigation" aria-label="main navigation">
 
         <div class="navbar-brand">
@@ -31,9 +30,12 @@
                 <span></span>
             </button>
         </div>
+
         <div class="navbar-menu">
+            <div class="navbar-start">
 
-
+            </div>
+            <div class="navbar-end">
             @guest
                 <a class="nav-item" href="{{ route('login') }}">
                     Login
@@ -41,43 +43,58 @@
                 <a class="nav-item" href="{{ route('register') }}">
                     Register
                 </a>
-                @else
-                    <div class="navbar-item">
-                        <div class="navbar-dropdown">
-                            <div class="dropdown is-active">
-                                <div class="dropdown-trigger">
-                                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
-                                        <span>Dropdown button</span>
-                                        <span class="icon is-small"><i class="fa fa-angle-down" aria-hidden="true"></i></span>
-                                    </button>
-                                </div>
-                                <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                                    <div class="dropdown-content">
-                                        <a href="#" class="dropdown-item">
-                                            Dropdown item
-                                        </a>
-                                        <a class="dropdown-item">
-                                            Other dropdown item
-                                        </a>
-                                        <a href="#" class="dropdown-item is-active">
-                                            Active dropdown item
-                                        </a>
-                                        <a href="#" class="dropdown-item">
-                                            Other dropdown item
-                                        </a>
-                                        <hr class="dropdown-divider">
-                                        <a href="#" class="dropdown-item">
-                                            With a divider
-                                        </a>
+                    @else
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                  style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
+                            <div class="navbar-link">
+                                {{ Auth::user()->name }}
+                            </div>
+                            <div id="moreDropdown" class="navbar-dropdown is-right">
+                                <a class="navbar-item" href="" onclick="" v-for="project in viewer.projects">
+                                    <div class="level is-mobile">
+                                        <div class="level-left">
+                                            <div class="level-item">
+                                                <p>
+                                                    <strong>@{{ project.name }}</strong>
+                                                    <br>
+                                                    <small>@{{ project.client_name }} (@{{project.role}})</small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        {{--<div class="level-right">--}}
+                                        {{--<div class="level-item">--}}
+                                        {{--<span class="icon has-text-info"><i class="fa fa-plug"></i></span>--}}
+                                        {{--</div>--}}
+                                        {{--</div>--}}
+                                    </div>
+                                </a>
+                                <div class="navbar-divider"></div>
+                                <a class="navbar-item" href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
+                           document.getElementById('logout-form').submit();">
+                                    <div class="level is-mobile">
+                                        <div class="level-left">
+                                            <div class="level-item">
+                                                <p>
+                                                    <strong>Sign out</strong>
+                                                </p>
                                     </div>
                                 </div>
+                                        <div class="level-right">
+                                            <div class="level-item">
+                                                <span class="icon has-text-info"><i class="fa fa-plug"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
                         </div>
-                    </div>
-                    @endguest
-
+                        @endguest
+            </div>
         </div>
-
     </nav>
 </div>
 <section class="hero is-primary">
@@ -90,12 +107,12 @@
 
     <!-- Hero content: will be in the middle -->
     <div class="hero-body">
-        <div class="container has-text-centered">
+        <div class="container">
             <h1 class="title">
-                Title
+                Project Magnificent Dashboard
             </h1>
             <h2 class="subtitle">
-                Subtitle
+                Track your developer progress & haunted them so they can hide anymore..
             </h2>
         </div>
     </div>
@@ -115,6 +132,9 @@
             </div>
         </nav>
     </div>
+</section>
+<section class="section">
+    @yield('content');
 </section>
 
 <script src="{{ asset('js/app.js') }}"></script>

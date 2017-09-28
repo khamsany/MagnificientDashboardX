@@ -11,6 +11,8 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
+    protected $scopeId;
+
     use HasApiTokens, Notifiable;
 
     /**
@@ -48,8 +50,22 @@ class User extends Authenticatable
             ->withPivot('role');
     }
 
-    public function scopeWithIdentity($query)
+    public function scopeWithIdentity($query, $userId)
     {
-        $query->with('repositories');
+        $this->scopeId = $userId;
+        $query->with([
+            'repositories' => function ($query) {
+                $query->with([
+                    'owner' => function ($query) {
+                        $query->with([
+                            'members' => function ($query) {
+                                $query->withPivot('role');
+                                $query->wherePivot('user_id', $this->scopeId);
+                            }
+                        ]);
+                    }
+                ]);
+            }
+        ]);
     }
 }
