@@ -10,10 +10,12 @@ window.VueApollo = require('vue-apollo');
 window.Vue = require('vue');
 window.gql = require('graphql-tag');
 
-import {Schema} from './graphql/Schema';
 import ProjectService from './graphql/ProjectService';
 
-Vue.use(VueApollo);
+window.projectService = new ProjectService();
+window.DJ = new Vue();
+
+Vue.component('project-card-summary', require('./components/dashboard/ProjectCardSummary.vue'));
 
 window.DashboardManager = new Vue({
     el: '#root',
@@ -22,12 +24,16 @@ window.DashboardManager = new Vue({
             original: {},
             projects: []
         },
-        projectService: new ProjectService(),
+        project: null
+    },
+    created() {
+        DJ.$on('projectInit', () => {
+            this.project = this.viewer.projects[0];
+        });
     },
     mounted() {
         axios.get('api/viewer').then(
             response => {
-                console.log(response.data);
                 this.viewer.original = response.data;
                 this.initViewer(response.data);
             }
@@ -39,49 +45,24 @@ window.DashboardManager = new Vue({
 
     },
     methods: {
-        query(item) {
-            console.log({'gql': Schema.VIEWER_PROJECTS});
-            return apollo.query({
-                query: Schema.VIEWER_PROJECTS,
-                variables: {
-                    repo_name: item.name,
-                }
-            });
-        },
         initViewer(data) {
             let vm = DashboardManager;
-            return vm.projectService.findAllProjects(data.repositories);
-            _.each(data.repositories, function (item) {
-                console.log({call: item});
-                vm.query(item)
+            let event = DJ;
+            _.each(data.repositories, function (repository) {
+                projectService.findAllRepositoryProjects(repository)
                     .then(data => {
-                        let result = data.data;
-                        console.log({result: result});
-                        if (result.viewer.repository && result.viewer.repository.projects.totalCount > 0) {
-                            console.log({goloop: result.viewer.repository.name});
-                            _.each(result.viewer.repository.projects.nodes, function (project) { //2 loop 1: mag 2:Hand
-                                console.log({goloop: result.viewer.repository.name});
-                                _.each(vm.viewer.original.repositories, function (repo) {
-                                    if (repo.name == result.viewer.repository.name) {
-                                        console.log({oripo: repo.name, vipo: result.viewer.repository.name});
-                                        let obj = {
-                                            id: project.id,
-                                            name: project.name,
-                                            number: project.number,
-                                            client_id: repo.owner.id,
-                                            client_name: repo.owner.name,
-                                            role: repo.owner.members[0].pivot.role
-                                        };
-                                        vm.viewer.projects.push(obj);
-                                    }
-                                });
-                            })
-                        }
-
-                        console.log({projects: vm.viewer});
+                        let repo = data.data.viewer.repository;
+                        if (!repo) return;
+                        let projects = projectService.syncProjectsData(repo, vm.viewer.original.repositories);
+                        console.log({projects: projects});
+                        _.each(projects, function (project) {
+                            vm.viewer.projects.push(project);
+                        });
+                        event.$emit('projectInit', vm.viewer.projects);
                     })
-                    .catch(error => console.error(error));
-            })
+                    .catch(error => console.log(error));
+            });
+
         }
     }
 });

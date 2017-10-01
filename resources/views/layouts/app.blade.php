@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-<div class="container" id="root">
+<div id="root">
+    <div class="container">
     <nav class="navbar" role="navigation" aria-label="main navigation">
 
         <div class="navbar-brand">
@@ -108,11 +109,11 @@
     <!-- Hero content: will be in the middle -->
     <div class="hero-body">
         <div class="container">
-            <h1 class="title">
-                Project Magnificent Dashboard
+            <h1 class="title" v-if="project">
+                @{{ project.name }}
             </h1>
-            <h2 class="subtitle">
-                Track your developer progress & haunted them so they can hide anymore..
+            <h2 class="subtitle" v-if="project">
+                @{{ project.description }}
             </h2>
         </div>
     </div>
@@ -134,9 +135,9 @@
     </div>
 </section>
 <section class="section">
-    @yield('content');
+    @yield('content')
 </section>
-
+</div>
 <script src="{{ asset('js/app.js') }}"></script>
 @yield('scripts')
 </body>
