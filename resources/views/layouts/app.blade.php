@@ -54,7 +54,8 @@
                                 {{ Auth::user()->name }}
                             </div>
                             <div id="moreDropdown" class="navbar-dropdown is-right">
-                                <a class="navbar-item" href="" onclick="" v-for="project in viewer.projects">
+                                <a class="navbar-item" href="javascript:void(0)" @click="changeProject(project.id)"
+                                   v-for="project in viewer.projects">
                                     <div class="level is-mobile">
                                         <div class="level-left">
                                             <div class="level-item">
@@ -118,21 +119,6 @@
         </div>
     </div>
 
-    <!-- Hero footer: will stick at the bottom -->
-    <div class="hero-foot">
-        <nav class="tabs">
-            <div class="container">
-                <ul>
-                    <li class="is-active"><a>Overview</a></li>
-                    <li><a>Modifiers</a></li>
-                    <li><a>Grid</a></li>
-                    <li><a>Elements</a></li>
-                    <li><a>Components</a></li>
-                    <li><a>Layout</a></li>
-                </ul>
-            </div>
-        </nav>
-    </div>
 </section>
 <section class="section">
     @yield('content')

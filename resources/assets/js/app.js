@@ -1,21 +1,21 @@
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
 require('./bootstrap');
 window.VueApollo = require('vue-apollo');
 window.Vue = require('vue');
 window.gql = require('graphql-tag');
+window.moment = require('moment-timezone');
 
 import ProjectService from './graphql/ProjectService';
+import MilestoneService from './graphql/MilestoneService';
+import IssueService from './graphql/IssueService';
 
 window.projectService = new ProjectService();
+window.milestoneService = new MilestoneService();
+window.issueService = new IssueService();
+
 window.DJ = new Vue();
 
 Vue.component('project-card-summary', require('./components/dashboard/ProjectCardSummary.vue'));
+Vue.component('repository-milestones', require('./components/dashboard/Milestones.vue'));
 
 window.DashboardManager = new Vue({
     el: '#root',
@@ -63,6 +63,15 @@ window.DashboardManager = new Vue({
                     .catch(error => console.log(error));
             });
 
+        },
+
+        changeProject(id) {
+            console.log({projectChanged: id});
+            let match = _.find(this.viewer.projects, function (project) {
+                return project.id === id;
+            });
+            this.project = match;
+            DJ.$emit('projectChanged', match);
         }
     }
 });

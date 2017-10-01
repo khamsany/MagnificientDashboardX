@@ -14,6 +14,10 @@ class AbstractService {
         });
     }
 
+    getFromNow(date) {
+        let mdate = moment(date);
+        return mdate.tz('Asia/Kuala_Lumpur').fromNow();
+    }
 
 }
 

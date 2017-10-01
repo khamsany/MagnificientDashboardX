@@ -43,6 +43,93 @@ export const Schema = {
                     }
                 }
             }
-        }
-        `
+        }`,
+
+    VIEWER_REPO_MILESTONES: gql `
+        query Milestones ($repo_name: String!)   {
+            viewer {
+                repository(name: $repo_name) {
+                    id
+                    milestones (first: 100) {
+                        nodes {
+                            repository {
+                                id
+                                name
+                                url
+                            }
+        	                id
+                            title
+                            description
+                            dueOn
+                            url
+                            number
+                            state
+                        }
+                    }
+                }
+            }
+        }`,
+
+    VIEWER_REPO_ISSUES: gql `
+        query Issue($repo_name: String!) {
+            viewer {
+                repository(name: $repo_name) {
+                    id
+                    issues(first: 100, orderBy: { field: UPDATED_AT, direction: ASC }) {
+                        totalCount
+                        nodes {
+                            id
+                            number
+                            title
+                            body
+                            state
+                            createdAt
+                            updatedAt
+                            url
+                            closed
+                            assignees(first: 5) {
+                                nodes {
+                                    id
+                                    name
+                                    url
+                                    avatarUrl
+                                }
+                            }
+                            milestone {
+                                id
+                                title
+                                number
+                            }
+                        }
+                    },
+                    pullRequests(first: 100, orderBy: { field: UPDATED_AT, direction: ASC }) {
+                        totalCount
+                        nodes {
+                            id
+                            number
+                            title
+                            body
+                            state
+                            createdAt
+                            updatedAt
+                            url
+                            closed
+                            assignees(first: 5) {
+                                nodes {
+                                    id
+                                    name
+                                    url
+                                    avatarUrl
+                                }
+                            }
+                            milestone {
+                                id
+                                title
+                                number
+                            }
+                        }
+                    }
+                }
+            }
+        }`
 };

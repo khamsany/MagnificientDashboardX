@@ -1,16 +1,23 @@
 <template>
     <div class="tile">
         <div class="tile is-parent">
-            <article class="tile is-child notification" v-if="pendingCards">
-                <p class="title">Pending</p>
-                <p class="subtitle" v-text="pendingCards.totalCount"></p>
+            <article class="tile is-child notification has-text-centered" v-if="pendingCards">
+                <p class="title" v-text="pendingCards.totalCount"></p>
+                <p class="subtitle">
+                    <small>Pendings</small>
+                </p>
             </article>
         </div>
         <div class="tile is-parent" v-for="column in columns">
-            <article class="tile is-child notification">
-                <p class="title">{{ column.name }}</p>
-                <p class="subtitle"
-                   v-text="column.name.toLowerCase() == 'done' ? `${donePercentage} %` : column.cards.totalCount"></p>
+            <article class="tile is-child notification has-text-centered">
+                <p class="title" v-if="column.name.toLowerCase() !== 'done'"
+                   v-text="column.cards.totalCount"></p>
+                <div style="padding-bottom: 12px" v-if="column.name.toLowerCase() === 'done'">
+                    <progress max="100" class="progress is-large is-primary" :value="donePercentage">50</progress>
+                </div>
+                <p class="subtitle" style="font-weight: 100">
+                    <small v-text="column.name.toLowerCase() == 'done' ? `${donePercentage} % Done` : column.name"></small>
+                </p>
             </article>
         </div>
     </div>
@@ -26,16 +33,11 @@
             };
         },
 
-        ready() {
-            console.log('hello');
-        },
-
         created() {
-            DJ.$on('projectInit', (event) => this.fetchProjectColumnsSummary(event[0]));
-        },
-
-        mounted() {
-            console.log('hello');
+            DJ.$on('projectInit', (event) => {
+                this.fetchProjectColumnsSummary(event[0]);
+            });
+            DJ.$on('projectChanged', (event) => this.fetchProjectColumnsSummary(event));
         },
 
         methods: {
@@ -46,7 +48,6 @@
                         this.columns = data.data.viewer.repository.project.columns.nodes;
                         this.pendingCards = data.data.viewer.repository.project.pendingCards;
                         this.computeCompletePercentage(this.columns);
-                        console.log({columns: this.columns});
                     })
                     .catch(error => console.log(error));
             },
