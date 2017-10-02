@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <table class="table">
+
+    <table class="table is-fullwidth">
             <thead>
             <tr>
                 <th><abbr title="number">#</abbr></th>
@@ -63,7 +63,6 @@
             </tr>
             </tbody>
         </table>
-    </div>
 </template>
 <script>
     export default {

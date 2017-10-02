@@ -124,6 +124,7 @@
     @yield('content')
 </section>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 @yield('scripts')
 </body>

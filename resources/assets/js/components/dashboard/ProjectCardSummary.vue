@@ -2,7 +2,7 @@
     <div class="tile">
         <div class="tile is-parent">
             <article class="tile is-child notification has-text-centered" v-if="pendingCards">
-                <p class="title" v-text="pendingCards.totalCount"></p>
+                <p class="title">{{ pendingCards.totalCount }}</p>
                 <p class="subtitle">
                     <small>Pendings</small>
                 </p>
@@ -10,13 +10,12 @@
         </div>
         <div class="tile is-parent" v-for="column in columns">
             <article class="tile is-child notification has-text-centered">
-                <p class="title" v-if="column.name.toLowerCase() !== 'done'"
-                   v-text="column.cards.totalCount"></p>
+                <p class="title" v-if="column.name.toLowerCase() !== 'done'">{{column.cards.totalCount}}</p>
                 <div style="padding-bottom: 12px" v-if="column.name.toLowerCase() === 'done'">
                     <progress max="100" class="progress is-large is-primary" :value="donePercentage">50</progress>
                 </div>
                 <p class="subtitle" style="font-weight: 100">
-                    <small v-text="column.name.toLowerCase() == 'done' ? `${donePercentage} % Done` : column.name"></small>
+                    <small>{{column.name.toLowerCase() == 'done' ? `${donePercentage} % Done` : column.name}}</small>
                 </p>
             </article>
         </div>
@@ -42,6 +41,7 @@
 
         methods: {
             fetchProjectColumnsSummary(data) {
+                console.log({eventProjectChanged: data});
                 let project = data; //use the first project as default
                 projectService.findAllProjectColumns(project.repository_name, project.number)
                     .then(data => {

@@ -66,12 +66,22 @@ window.DashboardManager = new Vue({
         },
 
         changeProject(id) {
-            console.log({projectChanged: id});
             let match = _.find(this.viewer.projects, function (project) {
                 return project.id === id;
             });
             this.project = match;
             DJ.$emit('projectChanged', match);
+        },
+
+        //receive update from Git webhook vie socket.io
+        processLiveUpdate(event) {
+            console.log({liveUpdate: event});
+            if (event.hasOwnProperty('repository')) {
+                console.log({ename: event.repository.name, pname: this.project.repository_name})
+            }
+            if (event.hasOwnProperty('repository') && this.project.repository_name === event.repository.name) {
+                this.changeProject(this.project.id);
+            }
         }
     }
 });

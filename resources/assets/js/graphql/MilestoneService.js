@@ -41,7 +41,11 @@ class MilestoneService extends AbstractService {
         _.each(milestones, function (milestone) {
             let matches = [];
             matches = _.filter(issues, function (issue) {
-                return issue.milestone.id === milestone.id
+                if (issue.milestone !== null) {
+                    return issue.milestone.id === milestone.id
+                } else {
+                    return false;
+                }
             });
 
 

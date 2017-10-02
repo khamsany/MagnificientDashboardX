@@ -10,7 +10,8 @@ class AbstractService {
 
         return apollo.query({
             query: schema,
-            variables: variables
+            variables: variables,
+            fetchPolicy: 'network-only',
         });
     }
 
