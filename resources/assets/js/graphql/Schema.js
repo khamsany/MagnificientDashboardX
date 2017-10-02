@@ -1,5 +1,42 @@
 import gql from 'graphql-tag';
 
+export const Fragment = {
+    IssueField: gql`
+        fragment IssueField on Issue {
+            id
+            url
+            title
+            createdAt
+            updatedAt
+            assignees (first: 5) {
+                nodes {
+                    id
+                    name
+                    avatarUrl
+                    url
+                }
+            }
+        }
+    `,
+    PullRequestField: gql`
+        fragment PullRequestField on PullRequest {
+            id
+            url
+            title
+            createdAt
+            updatedAt
+            assignees (first: 5) {
+                nodes {
+                    id
+                    name
+                    avatarUrl
+                    url
+                }
+            }
+        }
+    `
+};
+
 export const Schema = {
     VIEWER_PROJECTS: gql`
         query ($repo_name: String!) {
@@ -131,5 +168,88 @@ export const Schema = {
                     }
                 }
             }
-        }`
+        }`,
+
+    VIEWER_PROJECT_CARDS: gql `
+        query ($repo_name: String!, $project_number: Int!) {
+            viewer {
+                repository(name: $repo_name) {
+                id
+                project(number: $project_number) {
+                    pendingCards(first: 100) {
+         	            nodes {
+                            id
+                            url
+                            content {
+                                __typename
+                                ... on Issue {
+                                    ...IssueField
+                                }
+                                ... on PullRequest {
+                                    ...PullRequestField
+                                }
+                            }
+                        } 
+                    }
+                    columns(first: 5) {
+                        nodes {
+                            id
+                            name
+                            url
+                            cards (first: 5) {
+                                nodes {
+                                    id
+                                    note
+                                    createdAt
+                                    updatedAt
+                                    content {
+                                        __typename
+                                        ... on PullRequest {
+                                            ...PullRequestField
+                                        }
+                                        ... on Issue {
+                                            ...IssueField
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+ 
+    fragment IssueField on Issue {
+        id
+        url
+        title
+        createdAt
+        updatedAt
+        assignees (first: 5) {
+            nodes {
+                id
+                name
+                avatarUrl
+                url
+            }
+        }
+    }
+    
+    fragment PullRequestField on PullRequest {
+        id
+        url
+        title
+        createdAt
+        updatedAt
+        assignees (first: 5) {
+            nodes {
+                id
+                name
+                avatarUrl
+                url
+            }
+        }
+    }
+    `
 };
