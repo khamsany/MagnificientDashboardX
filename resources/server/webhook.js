@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const port = 4567;
 server = app.listen(port, function () {
-    console.log(`Example app listening on port ${port}!`)
+    console.log(`Server Initialize listening to port ${port}!`)
 });
 const io = require('socket.io')(server);
 
