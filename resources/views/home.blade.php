@@ -16,16 +16,6 @@
                     <repository-milestones></repository-milestones>
                 </div>
             </div>
-            <div class="tile is-4 is-vertical" style="margin-left: 20px">
-                <div class="tabs is-parent">
-                    <ul>
-                        <li class="is-active"><a class="title">Cards</a></li>
-                    </ul>
-                </div>
-                <div class="is-parent">
-                    <project-cards></project-cards>
-                </div>
-            </div>
         </div>
     </div>
     </div>
