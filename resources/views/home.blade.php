@@ -13,7 +13,7 @@
                     </ul>
                 </div>
                 <div class="is-parent">
-                    <repository-milestones></repository-milestones>
+                    <repository-milestones :project="project"></repository-milestones>
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
 
 @section('scripts')
     <script>
-        var socket = io.connect('http://magdash.app:4567');
+        var socket = io.connect('{{ env('APP_URL', 'http://localhost') }}:{{ env('WEB_SOCKET', 4567) }}');
         socket.on('payload-update', function (event) {
             DashboardManager.processLiveUpdate(event);
         });

@@ -28,6 +28,18 @@ return [
                     'role' => 'client'
                 ]
             ]
+        ],
+        [
+            'name' => 'Super Nova Ltd',
+            'repositories' => [
+                'HomeNetApiDoc'
+            ],
+            'users' => [
+                [
+                    'email' => 'khamsany@yahoo.com',
+                    'role' => 'client',
+                ],
+            ]
         ]
     ]
 ];

@@ -4,7 +4,7 @@
             <thead>
             <tr>
                 <th><abbr title="number">#</abbr></th>
-                <th>Title & Description</th>
+                <th style="width: 70%">Title & Description</th>
                 <th><abbr title="Open / Closed / Completion">Progress</abbr></th>
             </tr>
             </thead>
@@ -24,7 +24,8 @@
                     <p>
                         <small>{{ milestone.description }}</small>
                     </p>
-                    <p :style="isAlreadyDue(milestone.dueOn) ? 'font-weight: bold; color: red' : 'font-weight:auto'">
+                    <p v-if="project.role == 'manager'"
+                       :style="isAlreadyDue(milestone.dueOn) ? 'font-weight: bold; color: red' : 'font-weight:auto'">
                         <small>
                             <span class="icon"><i
                                     :class="isAlreadyDue(milestone.dueOn) ? 'fa fa-warning' : 'fa fa-calendar'"></i>
@@ -71,6 +72,8 @@
                 collection: []
             }
         },
+
+        props: ['project'],
 
         created() {
             DJ.$on('projectInit', (event) => {
