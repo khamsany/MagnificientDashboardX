@@ -72,6 +72,19 @@ class ProjectService extends AbstractService {
 
         return projects;
     }
+
+    organizeCards(project) {
+        let data = {};
+        let pending = project.pendingCards;
+        if (pending.nodes.length > 0)
+            data['pending'] = pending.nodes;
+        _.each(project.columns.nodes, function (column) {
+            data[column.id] = column.cards.nodes;
+        });
+
+        return data;
+
+    }
 }
 
 export default ProjectService;
