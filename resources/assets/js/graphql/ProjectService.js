@@ -1,5 +1,5 @@
 import AbstractService from "./AbstractService";
-import {Schema} from "./Schema";
+import {Fragment, Schema} from "./Schema";
 
 class ProjectService extends AbstractService {
     constructor() {
@@ -29,6 +29,13 @@ class ProjectService extends AbstractService {
         let variables = {repo_name: repository.name};
         return this.query(schema, variables);
 
+    }
+
+    findAllCards(repositoryName, projectNumber) {
+        let schema = Schema.VIEWER_PROJECT_CARDS;
+        let fragments = Fragment.IssueField;
+        let variables = {repo_name: repositoryName, project_number: projectNumber};
+        return this.query(schema, variables);
     }
 
     /**
@@ -64,6 +71,19 @@ class ProjectService extends AbstractService {
         }
 
         return projects;
+    }
+
+    organizeCards(project) {
+        let data = {};
+        let pending = project.pendingCards;
+        if (pending.nodes.length > 0)
+            data['pending'] = pending.nodes;
+        _.each(project.columns.nodes, function (column) {
+            data[column.id] = column.cards.nodes;
+        });
+
+        return data;
+
     }
 }
 

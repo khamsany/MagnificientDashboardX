@@ -15,6 +15,7 @@ window.issueService = new IssueService();
 window.DJ = new Vue();
 
 Vue.component('project-card-summary', require('./components/dashboard/ProjectCardSummary.vue'));
+Vue.component('project-cards', require('./components/dashboard/ProjectCards.vue'));
 Vue.component('repository-milestones', require('./components/dashboard/Milestones.vue'));
 
 window.DashboardManager = new Vue({
