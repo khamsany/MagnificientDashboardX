@@ -2,12 +2,12 @@
 return [
     'users' => [
         [
-            'name' => 'Mr. Manager',
-            'email' => 'khamsany@yahoo.com',
+            'name' => 'Nasrul Hazim',
+            'email' => 'nasrulhazim@gmail.com',
             'password' => 'password'
         ],
         [
-            'name' => 'Mr. Client',
+            'name' => 'Khamsany Misran',
             'email' => 'khamsany@gmail.com',
             'password' => 'password'
         ]
@@ -20,7 +20,7 @@ return [
             ],
             'users' => [
                 [
-                    'email' => 'khamsany@yahoo.com',
+                    'email' => 'nasrulhazim@gmail.com',
                     'role' => 'manager',
                 ],
                 [
@@ -36,7 +36,7 @@ return [
             ],
             'users' => [
                 [
-                    'email' => 'khamsany@yahoo.com',
+                    'email' => 'nasrulhazim@gmail.com',
                     'role' => 'client',
                 ],
             ]

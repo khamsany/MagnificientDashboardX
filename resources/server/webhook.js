@@ -14,7 +14,7 @@ app.get('/', function (req, res) {
 });
 
 app.post('/payload', function (req, res) {
-
+    console.log({data: req.body});
     io.emit('payload-update', req.body);
 });
 
